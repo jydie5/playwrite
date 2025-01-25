@@ -1,7 +1,8 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, Page
 from occto_auth import OCCTOAuthenticator
 import logging
 from dotenv import load_dotenv
+import time
 
 # 環境変数の読み込み
 load_dotenv()
@@ -13,10 +14,29 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+class PlaywrightHelper:
+    @staticmethod
+    def debug_point(page: Page, message: str = "デバッグポイント"):
+        """
+        デバッグポイントを設定し、プログラムを一時停止します
+        """
+        logger.info(f"🔍 {message}")
+        print(f"""
+デバッグモード: {message}
+コマンド:
+- Enter: 次の処理に進む
+- q: プログラムを終了
+        """)
+        
+        cmd = input("コマンドを入力 (Enter/q): ").lower()
+        if cmd == 'q':
+            raise KeyboardInterrupt("プログラムを終了します")
+
 def main():
     try:
         # 認証クラスのインスタンス化
         authenticator = OCCTOAuthenticator()
+        helper = PlaywrightHelper()
         
         with sync_playwright() as p:
             logger.info("ブラウザを起動します...")
@@ -38,7 +58,12 @@ def main():
             # 認証プロセスの実行
             if authenticator.authenticate(page):
                 logger.info("認証が完了しました")
+                
+                # デバッグポイントの例
+                helper.debug_point(page, "認証後の画面")
+                
                 # ここに認証後の処理を追加
+                
             else:
                 logger.error("認証に失敗しました")
 
