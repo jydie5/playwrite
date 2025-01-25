@@ -59,8 +59,26 @@ def main():
             if authenticator.authenticate(page):
                 logger.info("認証が完了しました")
                 
-                # デバッグポイントの例
+                # ここに認証後の処理を追加     
                 helper.debug_point(page, "認証後の画面")
+                
+                # ページ遷移して住所検索画面まで
+                helper.debug_point(page, "デバッグポイント")
+                # input用データ読み込み
+                helper.debug_point(page, "デバッグポイント")
+                ########ここはループ　#######
+                # 住所検索画面での処理
+                helper.debug_point(page, "デバッグポイント")
+                #　マッチング処理
+                helper.debug_point(page, "デバッグポイント")
+                #　結果出力   
+                 ########ここはループ　#######
+                helper.debug_point(page, "デバッグポイント")
+                
+                
+                
+                # デバッグポイントの例
+                helper.debug_point(page, "デバッグポイント")
                 
                 # ここに認証後の処理を追加
                 
